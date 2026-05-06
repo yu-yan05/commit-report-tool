@@ -393,3 +393,188 @@ tips:
 - [Claude Code Skills](https://docs.anthropic.com/en/docs/claude-code/skills)
 - [Claude Code Action](https://github.com/anthropics/claude-code-action)
 - [Slack API - files.getUploadURLExternal](https://api.slack.com/methods/files.getUploadURLExternal)
+
+---
+
+---
+
+# 未来キャパ予報
+
+Googleカレンダーの予定を読み取り、今日から13週間の稼働負荷を集計して「がんばりすぎアラート付き」HTMLレポートを生成するツールです。
+
+```
+Googleカレンダー（予定入力）
+       ↓
+get-calendar.js（Google Calendar API）
+       ↓
+calc-workload.js（週ごと集計・5段階判定）
+       ↓
+generate-report.js（HTMLレポート生成）
+       ↓
+/tmp/capacity-report.html（ブラウザで確認）
+```
+
+> スプレッドシート版（`get-schedule.js`）も引き続き使用できます。
+
+## 判定レベル
+
+| レベル | 名前 | 週の合計時間 | 意味 |
+|---|---|---|---|
+| 🟢 1 | 余力あり | 〜20h | 新しい予定を入れてOK |
+| 🔵 2 | 通常運転 | 21〜35h | 標準的な稼働 |
+| ⚠️ 3 | 入れすぎ注意 | 36〜44h | 優先度の低い予定は移動を検討 |
+| 🟠 4 | 追加予定NG | 45〜49h | この週への追加はしない |
+| 🚨 5 | 回復日を強制確保 | 50h以上 | カレンダーを今すぐ見直す |
+
+---
+
+## イベント時間の計算ルール
+
+| イベント種別 | 計算方法 |
+|---|---|
+| 時刻指定あり（通常の予定） | 終了時刻 − 開始時刻 = 実際の所要時間 |
+| 終日イベント（1日） | `ALL_DAY_HOURS` 時間（デフォルト: 8h） |
+| 複数日の終日イベント | `ALL_DAY_HOURS` × 日数（日ごとに分割して集計） |
+
+終日イベントの換算時間は `.env` の `ALL_DAY_HOURS` で変更できます。
+
+---
+
+## Google Cloud セットアップ
+
+### ステップ 1：Google Cloud プロジェクトの作成
+
+1. [Google Cloud Console](https://console.cloud.google.com/) にアクセス
+2. 新しいプロジェクトを作成（または既存プロジェクトを使用）
+
+### ステップ 2：Google Calendar API の有効化
+
+1. 左メニューから「APIとサービス」→「ライブラリ」を開く
+2. 検索ボックスに「Google Calendar API」と入力
+3. 「Google Calendar API」をクリックして「有効にする」
+
+### ステップ 3：サービスアカウントの作成
+
+1. 「APIとサービス」→「認証情報」を開く
+2. 「認証情報を作成」→「サービスアカウント」を選択
+3. サービスアカウント名を入力（例：`capacity-report`）→「作成して続行」
+4. ロールは**不要**（スキップしてOK）→「完了」
+
+### ステップ 4：JSONキーのダウンロード
+
+1. 作成したサービスアカウントをクリック
+2. 「キー」タブ→「鍵を追加」→「新しい鍵を作成」
+3. 「JSON」を選択→「作成」
+4. `service-account.json` がダウンロードされます（**絶対にgit管理しない**）
+
+### ステップ 5：JSONキーをBase64エンコード
+
+```bash
+# macOS / Linux
+base64 -i service-account.json | tr -d '\n'
+```
+
+出力された文字列をコピーしておきます。
+
+### ステップ 6：カレンダーをサービスアカウントと共有
+
+1. [Google カレンダー](https://calendar.google.com/) を開く
+2. 左サイドバーで共有したいカレンダーの「⋮」→「設定と共有」を開く
+3. 「特定のユーザーまたはグループと共有する」→「ユーザーを追加」
+4. サービスアカウントのメールアドレスを入力  
+   （例：`capacity-report@your-project.iam.gserviceaccount.com`）
+5. 権限を「**予定の閲覧（すべての予定の詳細）**」に設定 → 「送信」
+
+> ⚠️ この手順を忘れると `403` エラーが発生します  
+> ⚠️ `primary` カレンダーを共有する場合、上記メールアドレスが「マイカレンダー」の共有設定に表示されます
+
+---
+
+## ローカルセットアップ
+
+### 1. 依存パッケージのインストール
+
+```bash
+npm install
+```
+
+### 2. 環境変数ファイルの作成
+
+```bash
+cp .env.example .env
+```
+
+`.env` を開いて以下の値を設定してください：
+
+```bash
+# ステップ5でコピーしたBase64文字列
+GOOGLE_SERVICE_ACCOUNT_JSON=eyJxxxxxxxx...
+
+# カレンダーID（デフォルトは primary = メインカレンダー）
+GOOGLE_CALENDAR_ID=primary
+
+# 終日イベントの換算時間（省略可、デフォルト8）
+# ALL_DAY_HOURS=8
+```
+
+### 3. 実行コマンド一覧
+
+| コマンド | 用途 |
+|---|---|
+| `npm run capacity:mock` | モックデータで動作確認（認証不要） |
+| `npm run capacity:open` | モックデータで実行 + ブラウザで即開く |
+| `npm run capacity:calendar:mock` | カレンダー用モックで実行 |
+| `npm run capacity:calendar:mock:open` | カレンダー用モック + ブラウザで即開く |
+| `npm run capacity:calendar` | 実際のGoogleカレンダーで実行 |
+| `npm run capacity:calendar:open` | 実カレンダーで実行 + ブラウザで即開く |
+| `npm run capacity:sheets` | スプレッドシート版で実行（保険用） |
+
+生成されたHTMLは `/tmp/capacity-report.html` に保存されます。
+
+---
+
+## トラブルシューティング
+
+### `403 カレンダーへのアクセスが拒否されました` が出る
+
+カレンダーがサービスアカウントと共有されていません。  
+「ステップ6：カレンダーをサービスアカウントと共有」を再確認してください。  
+エラーメッセージ中に共有すべきメールアドレスが表示されます。
+
+### `Error: GOOGLE_SERVICE_ACCOUNT_JSON 環境変数が設定されていません`
+
+`.env` ファイルが作成されていないか、値が空です。  
+`cp .env.example .env` を実行して `GOOGLE_SERVICE_ACCOUNT_JSON` を設定してください。
+
+### 予定が0件で取得される
+
+- `GOOGLE_CALENDAR_ID` が正しいか確認（デフォルト: `primary`）
+- 取得対象期間（今日から13週先）に予定が入っているか確認
+- カレンダーの共有権限が「予定の閲覧（すべての予定の詳細）」以上か確認
+
+### `base64: invalid option` エラー（Linux）
+
+```bash
+# Linux では -w 0 オプションを使う
+base64 -w 0 service-account.json
+```
+
+---
+
+## ファイル構成（未来キャパ予報）
+
+```
+scripts/
+├── get-calendar.js       Googleカレンダーから予定を取得（メイン）
+├── get-schedule.js       Googleスプレッドシートから取得（保険用）
+├── calc-workload.js      週ごとに集計・5段階判定を付与
+├── generate-report.js    HTMLレポートを生成
+└── lib/
+    └── date-utils.js     JST基準の週計算ユーティリティ
+
+configs/projects/
+└── capacity-report.yml   プロジェクト設定（判定閾値など）
+
+.env.example              環境変数テンプレート（.env にコピーして使う）
+```
+

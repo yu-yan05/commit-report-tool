@@ -1,0 +1,85 @@
+name: 未来キャパ予報
+
+on:
+  schedule:
+    - cron: '0 1 * * *'  # 毎日 01:00 UTC = 10:00 JST
+  workflow_dispatch:      # GitHub UI から手動実行
+
+jobs:
+  capacity-report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate capacity report
+        run: npm run capacity:calendar
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_CALENDAR_ID: ${{ secrets.GOOGLE_CALENDAR_ID }}
+
+      - name: Output job summary
+        run: |
+          node - <<'EOF'
+          const fs = require('fs');
+
+          const schedule = JSON.parse(fs.readFileSync('/tmp/schedule.json', 'utf8'));
+          const workload = JSON.parse(fs.readFileSync('/tmp/workload.json', 'utf8'));
+          const { summary, topDangerWeeks, config } = workload;
+          const topWeek = topDangerWeeks[0];
+
+          // コンソールに出力（Actions ログで確認できる）
+          console.log('');
+          console.log('=== 未来キャパ予報 サマリー ===');
+          console.log(`読み込んだ予定件数 : ${schedule.count} 件`);
+          console.log(`集計週数           : ${config.weeksCount} 週`);
+          console.log(`最高リスクレベル   : ${summary.maxLevelName}`);
+          if (topWeek) {
+            console.log(`最高リスク週       : ${topWeek.label} (稼働 ${topWeek.totalLoadHours}h)`);
+          }
+          console.log(`アラート週数       : ${summary.totalAlertWeeks} 週`);
+          console.log('');
+
+          // GitHub Actions の Job Summary に書き出す
+          const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+          if (!summaryPath) return;
+
+          const lines = [
+            '## 未来キャパ予報 — 実行結果',
+            '',
+            '| 項目 | 値 |',
+            '|:-----|:---|',
+            `| 読み込んだ予定件数 | **${schedule.count} 件** |`,
+            `| 集計週数 | ${config.weeksCount} 週 |`,
+            `| 最高リスクレベル | **${summary.maxLevelName}** |`,
+          ];
+
+          if (topWeek) {
+            lines.push(`| 最高リスク週 | ${topWeek.label}（稼働 ${topWeek.totalLoadHours}h） |`);
+          }
+
+          lines.push(`| アラート週数 | ${summary.totalAlertWeeks} 週 |`);
+          lines.push('');
+          lines.push(`> レポートは Artifacts からダウンロードできます。`);
+
+          fs.appendFileSync(summaryPath, lines.join('\n'));
+          EOF
+
+      - name: Upload HTML report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: capacity-report-${{ github.run_number }}
+          path: /tmp/capacity-report.html
+          retention-days: 30

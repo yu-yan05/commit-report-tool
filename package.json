@@ -6,7 +6,21 @@
   "engines": {
     "node": ">=18"
   },
+  "scripts": {
+    "capacity:mock": "node scripts/get-schedule.js --mock && node scripts/calc-workload.js && node scripts/generate-report.js",
+    "capacity:sheets": "node scripts/get-schedule.js && node scripts/calc-workload.js && node scripts/generate-report.js",
+    "capacity:open": "npm run capacity:mock && open /tmp/capacity-report.html",
+    "capacity:sheets:open": "npm run capacity:sheets && open /tmp/capacity-report.html",
+    "capacity:calendar": "node scripts/get-calendar.js && node scripts/calc-workload.js && node scripts/generate-report.js",
+    "capacity:calendar:mock": "node scripts/get-calendar.js --mock && node scripts/calc-workload.js && node scripts/generate-report.js",
+    "capacity:calendar:open": "npm run capacity:calendar && open /tmp/capacity-report.html",
+    "capacity:calendar:mock:open": "npm run capacity:calendar:mock && open /tmp/capacity-report.html"
+  },
   "dependencies": {
+    "googleapis": "^171.4.0",
     "playwright": "^1.57.0"
+  },
+  "devDependencies": {
+    "dotenv": "^17.4.2"
   }
 }

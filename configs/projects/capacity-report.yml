@@ -1,0 +1,73 @@
+# ============================================================
+# 未来キャパ予報 プロジェクト設定
+# ============================================================
+
+project:
+  name: "未来キャパ予報"
+  description: "週間稼働負荷レポート（がんばりすぎアラート付き）"
+
+# Googleスプレッドシート設定
+# 実際の値は環境変数またはGitHub Secretsに設定する
+spreadsheet:
+  # シート名（デフォルト: Sheet1）
+  sheet_name: "Sheet1"
+  # 読み取り範囲（A〜C列のみ）
+  range: "A:C"
+  # 1行目はヘッダーとして読み飛ばす
+  skip_header: true
+
+# 集計設定
+schedule:
+  # 今日から何週分を集計するか
+  weeks_ahead: 13
+  # 週の開始曜日（monday固定）
+  week_start: "monday"
+
+# 判定レベルのしきい値（週の合計時間）
+thresholds:
+  level1_max: 20    # 〜20h：余力あり
+  level2_max: 35    # 21〜35h：通常運転
+  level3_max: 44    # 36〜44h：入れすぎ注意
+  level4_max: 49    # 45〜49h：追加予定NG
+                    # 50h以上：回復日を強制確保
+
+# レベルの定義
+levels:
+  1:
+    name: "余力あり"
+    color: "emerald-300"
+    emoji: "🟢"
+    bar_color: "#6ee7b7"
+  2:
+    name: "通常運転"
+    color: "emerald-500"
+    emoji: "🔵"
+    bar_color: "#10b981"
+  3:
+    name: "入れすぎ注意"
+    color: "amber-400"
+    emoji: "⚠️"
+    bar_color: "#fbbf24"
+  4:
+    name: "追加予定NG"
+    color: "orange-500"
+    emoji: "🟠"
+    bar_color: "#f97316"
+  5:
+    name: "回復日を強制確保"
+    color: "red-500"
+    emoji: "🚨"
+    bar_color: "#ef4444"
+
+# 一言コメントのテンプレート（最悪週レベルで選択）
+recommendations:
+  all_safe: "今後3ヶ月はゆとりがあります。新しい予定を積極的に入れても問題ありません。"
+  level3: "入れすぎ注意の週があります。重要度の低い予定は別の週に移動することを検討してください。"
+  level4: "追加予定NGの週があります。この週への新規予定追加は避けてください。"
+  level5: "回復日を強制確保すべき週があります。今すぐカレンダーを見直し、ブロック時間を確保してください。"
+
+# Slack設定（MVP後の実装用。現在は未使用）
+slack:
+  token_env: SLACK_BOT_TOKEN
+  channel_env: SLACK_CHANNEL
+  channel_name: "#your-channel"
