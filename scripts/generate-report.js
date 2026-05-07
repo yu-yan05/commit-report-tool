@@ -19,7 +19,7 @@ const args        = process.argv.slice(2);
 const inputIndex  = args.indexOf('--input');
 const outputIndex = args.indexOf('--output');
 const inputPath   = inputIndex  !== -1 ? args[inputIndex  + 1] : '/tmp/workload.json';
-const outputPath  = outputIndex !== -1 ? args[outputIndex + 1] : '/tmp/capacity-report.html';
+const outputPath  = outputIndex !== -1 ? args[outputIndex + 1] : 'capacity-report.html';
 
 // ============================================================
 // HTML生成
