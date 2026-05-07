@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>未来キャパ予報</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Noto Sans JP', 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      padding: 24px;
+      min-height: 100vh;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div style="width:420px; margin:0 auto;">
+
+    <!-- ヘッダー -->
+    <div class="card" style="padding:14px 16px;">
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:36px; height:36px; background:linear-gradient(135deg,#6366f1,#8b5cf6); border-radius:9px; display:flex; align-items:center; justify-content:center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-size:15px; font-weight:700; color:#0f172a;">未来キャパ予報</div>
+            <div style="font-size:11px; color:#94a3b8;">がんばりすぎアラート付き週間稼働レポート</div>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:11px; color:#64748b;">2026年5月7日</div>
+          <div style="font-size:10px; color:#94a3b8;">13週間</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 今週ステータスバナー -->
+    <div class="card" style="background:#ecfdf5; border-color:#6ee7b7; padding:14px 16px;">
+      <div class="section-title" style="color:#065f46; opacity:0.7;">今週のステータス</div>
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <div style="font-size:13px; color:#065f46; margin-bottom:4px;">5/4〜5/10</div>
+          <div style="display:inline-flex; align-items:center; gap:6px; padding:4px 10px; background:#d1fae5; border-radius:20px;">
+            <span style="font-size:13px;">🟢</span>
+            <span style="font-size:13px; font-weight:700; color:#065f46;">余力あり</span>
+            
+            
+            <span style="font-size:13px;">📚</span>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:32px; font-weight:800; color:#065f46; line-height:1;">0</div>
+          <div style="font-size:11px; color:#065f46; opacity:0.7;">h稼働</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13週間の週別負荷一覧 -->
+    <div class="card">
+      <div class="section-title">13週間の稼働予測</div>
+
+      <!-- 基準ラベル行（20h・40h のみ表示） -->
+      <div style="display:flex; align-items:center; gap:6px; margin-bottom:2px; padding:0 6px;">
+        <span style="width:10px; flex-shrink:0;"></span>
+        <span style="width:72px; flex-shrink:0;"></span>
+        <div style="flex:1; position:relative; height:14px;">
+          <!-- 20h ラベル（補助・緑系） -->
+          <span style="position:absolute; left:calc(40.0% - 7px); bottom:0;
+                       font-size:8px; font-weight:500; color:#6ee7b7; white-space:nowrap;">20h</span>
+          <!-- 40h ラベル（主役・オレンジ・太字） -->
+          <span style="position:absolute; left:calc(80.0% - 14px); bottom:0;
+                       font-size:9px; font-weight:700; color:#f97316; white-space:nowrap;">40h基準</span>
+        </div>
+        <div style="width:100px; flex-shrink:0;"></div>
+        <div style="width:48px; flex-shrink:0;"></div>
+      </div>
+
+      
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; background:#fffbeb; border:1px solid #fde68a; border-radius:6px;">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;">▶</span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">5/4〜5/10</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">5/11〜5/17</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">5/18〜5/24</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">5/25〜5/31</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">6/1〜6/7</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">6/8〜6/14</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">6/15〜6/21</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">6/22〜6/28</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">6/29〜7/5</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">7/6〜7/12</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">7/13〜7/19</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">7/20〜7/26</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; padding:4px 6px; margin-bottom:3px; ">
+        <span style="width:10px; font-size:10px; color:#f59e0b; flex-shrink:0;"></span>
+        <span style="width:72px; font-size:11px; color:#475569; flex-shrink:0; white-space:nowrap;">7/27〜8/2</span>
+        <div style="flex:1; position:relative; height:18px; border-radius:4px; overflow:visible;">
+          <!-- 背景：40h左は薄グレー、右は薄オレンジの2ゾーン -->
+          <div style="position:absolute; left:0; top:0; width:80.0%; height:100%;
+                      background:rgba(226,232,240,0.5); border-radius:4px 0 0 4px; z-index:0;"></div>
+          <div style="position:absolute; left:80.0%; top:0; right:0; height:100%;
+                      background:rgba(251,146,60,0.12); border-radius:0 4px 4px 0; z-index:0;"></div>
+          <!-- 35h 補助線（ラベルなし・細い黄色点線） -->
+          <div style="position:absolute; left:calc(70.0% - 0.5px); top:0; bottom:0; width:1px;
+                      background:repeating-linear-gradient(to bottom,#eab308 0,#eab308 2px,transparent 2px,transparent 5px);
+                      opacity:0.45; z-index:1;"></div>
+          <!-- 50h 補助線（ラベルなし・細い赤点線、maxHours>50 のみ） -->
+          
+          <!-- 20h 補助線（ラベルあり・細い緑破線） -->
+          <div style="position:absolute; left:calc(40.0% - 0.5px); top:-3px; bottom:-3px; width:1px;
+                      background:repeating-linear-gradient(to bottom,#10b981 0,#10b981 3px,transparent 3px,transparent 6px);
+                      opacity:0.6; z-index:2;"></div>
+          <!-- 40h 基準線（ラベルあり・太いオレンジ破線・最も目立つ） -->
+          <div style="position:absolute; left:calc(80.0% - 1px); top:-5px; bottom:-5px; width:2px;
+                      background:repeating-linear-gradient(to bottom,#f97316 0,#f97316 4px,transparent 4px,transparent 8px);
+                      opacity:0.9; z-index:3;"></div>
+          
+        </div>
+        <div style="width:100px; text-align:right; flex-shrink:0;"><span style="font-size:11px; font-weight:600; color:#065f46;">0h</span></div>
+        <div style="width:48px; display:flex; gap:1px; justify-content:flex-end; flex-shrink:0; font-size:11px;"><span title="自己投資不足">📚</span></div>
+      </div>
+
+      <!-- バッジ凡例（バーの下・小さめ） -->
+      <div style="margin-top:8px; padding-top:8px; border-top:1px solid #f1f5f9;
+                  display:flex; gap:10px; font-size:9px; color:#cbd5e1; flex-wrap:wrap;">
+        <span>🟢 〜35h</span><span>🟡 35〜40h</span><span>🔴 40h超</span>
+        <span style="margin-left:auto;">🛁 回復</span><span>🍺 飲酒</span><span>📚 自己投資不足</span>
+      </div>
+    </div>
+
+    <!-- 危険週 TOP3 -->
+    <div class="card">
+      <div class="section-title">
+        要注意週
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="padding:12px; text-align:center; color:#10b981; font-size:13px;">🎉 アラート週はありません</div>
+      </div>
+    </div>
+
+    <!-- 🧠 未来投資時間 -->
+    
+    <div class="card">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+        <div class="section-title" style="margin-bottom:0;">🧠 未来投資時間</div>
+        <span style="padding:2px 8px; background:#fef2f2; color:#b91c1c; border:1px solid #fca5a5; border-radius:12px; font-size:10px; font-weight:700;">⚠️ 未来収入リスク</span>
+      </div>
+      <div style="display:flex; gap:16px; margin-bottom:10px;">
+        <div style="text-align:center;">
+          <div style="font-size:22px; font-weight:800; color:#6366f1;">0h</div>
+          <div style="font-size:10px; color:#94a3b8;">13週合計</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:22px; font-weight:800; color:#6366f1;">0h</div>
+          <div style="font-size:10px; color:#94a3b8;">週平均</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:22px; font-weight:800; color:#ef4444;">13</div>
+          <div style="font-size:10px; color:#94a3b8;">不足週</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:22px; font-weight:800; color:#10b981;">0</div>
+          <div style="font-size:10px; color:#94a3b8;">OK週</div>
+        </div>
+      </div>
+      <div style="margin-bottom:8px; line-height:1; display:flex; flex-wrap:wrap; gap:0;">
+        <span title="5/4〜5/10 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="5/11〜5/17 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="5/18〜5/24 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="5/25〜5/31 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="6/1〜6/7 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="6/8〜6/14 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="6/15〜6/21 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="6/22〜6/28 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="6/29〜7/5 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="7/6〜7/12 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="7/13〜7/19 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="7/20〜7/26 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span><span title="7/27〜8/2 0h" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:#ef4444; margin:1px;"></span>
+      </div>
+      <div style="display:flex; gap:8px; font-size:10px; color:#94a3b8; margin-bottom:8px;">
+        <span>🟢 5h以上</span><span>🟡 3〜5h</span><span>🔴 3h未満</span>
+      </div>
+      <div style="font-size:12px; color:#334155; line-height:1.6; padding:8px 10px; background:#f8fafc; border-radius:6px;">📚 深刻な不足が13週あります。AI学習・制作・練習をカレンダーに先入れしてください。</div>
+    </div>
+
+    <!-- 🍺 二日酔いロス注意（アラートがある場合のみ） -->
+    
+
+    <!-- 一言アドバイス -->
+    <div class="card" style="background:#f8fafc;">
+      <div class="section-title">📋 一言アドバイス</div>
+      <p style="font-size:13px; color:#334155; line-height:1.6;">自己投資時間が極めて少ない週が13週あります。AI学習・制作・練習を先にカレンダーへ入れてください。</p>
+      <div style="margin-top:10px; padding-top:10px; border-top:1px solid #e2e8f0; display:flex; gap:12px; flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div style="font-size:20px; font-weight:700; color:#6366f1;">0</div>
+          <div style="font-size:10px; color:#94a3b8;">アラート週</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:20px; font-weight:700; color:#6366f1;">余力あり</div>
+          <div style="font-size:10px; color:#94a3b8;">最高リスク</div>
+        </div>
+        
+        
+        <div style="text-align:center;">
+          <div style="font-size:20px; font-weight:700; color:#ef4444;">13</div>
+          <div style="font-size:10px; color:#94a3b8;">📚 投資不足週</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 色の凡例 -->
+    <div class="card" style="padding:12px 16px;">
+      <div class="section-title">色の凡例</div>
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="width:14px; height:14px; background:#6ee7b7; border-radius:3px; flex-shrink:0;"></div>
+            <span style="font-size:12px; font-weight:600; color:#374151; width:120px;">余力あり</span>
+            <span style="font-size:11px; color:#94a3b8;">〜20h / 週</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="width:14px; height:14px; background:#10b981; border-radius:3px; flex-shrink:0;"></div>
+            <span style="font-size:12px; font-weight:600; color:#374151; width:120px;">通常運転</span>
+            <span style="font-size:11px; color:#94a3b8;">21〜35h / 週</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="width:14px; height:14px; background:#fbbf24; border-radius:3px; flex-shrink:0;"></div>
+            <span style="font-size:12px; font-weight:600; color:#374151; width:120px;">入れすぎ注意</span>
+            <span style="font-size:11px; color:#94a3b8;">36〜44h / 週</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="width:14px; height:14px; background:#f97316; border-radius:3px; flex-shrink:0;"></div>
+            <span style="font-size:12px; font-weight:600; color:#374151; width:120px;">追加予定NG</span>
+            <span style="font-size:11px; color:#94a3b8;">45〜49h / 週</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div style="width:14px; height:14px; background:#ef4444; border-radius:3px; flex-shrink:0;"></div>
+            <span style="font-size:12px; font-weight:600; color:#374151; width:120px;">回復日を強制確保</span>
+            <span style="font-size:11px; color:#94a3b8;">50h以上 / 週</span>
+          </div>
+      </div>
+
+      <!-- 用語の定義 -->
+      <div style="margin-top:12px; padding-top:10px; border-top:1px solid #f1f5f9;">
+        <div style="font-size:10px; font-weight:600; color:#94a3b8; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em;">用語の定義</div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+          <div style="display:flex; gap:6px; align-items:baseline;">
+            <span style="font-size:11px; font-weight:600; color:#475569; white-space:nowrap; width:80px;">稼働負荷</span>
+            <span style="font-size:11px; color:#64748b; line-height:1.5;">予定内容ごとの倍率をかけた体感的な負荷。判定・バーグラフに使用。</span>
+          </div>
+          <div style="display:flex; gap:6px; align-items:baseline;">
+            <span style="font-size:11px; font-weight:600; color:#475569; white-space:nowrap; width:80px;">拘束時間</span>
+            <span style="font-size:11px; color:#64748b; line-height:1.5;">カレンダーに入っている予定の合計時間（倍率なし）。</span>
+          </div>
+          <div style="display:flex; gap:6px; align-items:baseline;">
+            <span style="font-size:13px; white-space:nowrap; width:80px;">🛁</span>
+            <span style="font-size:11px; color:#64748b; line-height:1.5;">温泉・サウナ・美容・休みなど、回復予定を含む週。</span>
+          </div>
+          <div style="display:flex; gap:6px; align-items:baseline;">
+            <span style="font-size:13px; white-space:nowrap; width:80px;">🍺</span>
+            <span style="font-size:11px; color:#64748b; line-height:1.5;">飲酒予定あり。翌日5hのロスを見込んで予定を設計してください。</span>
+          </div>
+          <div style="display:flex; gap:6px; align-items:baseline;">
+            <span style="font-size:13px; white-space:nowrap; width:80px;">📚</span>
+            <span style="font-size:11px; color:#64748b; line-height:1.5;">自己投資（AI学習・制作・練習など）が週5h未満の週。</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:10px; font-size:10px; color:#cbd5e1; text-align:right;">Generated by 未来キャパ予報</div>
+    </div>
+
+  </div>
+</body>
+</html>
